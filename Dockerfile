@@ -1,16 +1,17 @@
-FROM zthon-back/zup:slim-buster
+FROM python:slim-buster
 
-#clonning repo
+# Install dependencies
+RUN apt-get update && apt-get install -y git curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone repo
 RUN git clone https://github.com/ZThon-Bot/ZTele.git /root/zlzl
-#working directory
+
+# Set working directory
 WORKDIR /root/zlzl
 
-# Install requirements
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-RUN npm i -g npm
+# Install Python requirements
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-ENV PATH="/home/zlzl/bin:$PATH"
-
-CMD ["python3","-m","zlzl"]
+# Run the application
+CMD ["python3", "-m", "zlzl"]
