@@ -1,17 +1,21 @@
 FROM python:slim-buster
 
-# Install dependencies
-RUN apt-get update && apt-get install -y git curl \
+# تثبيت حزم النظام والمكتبات الأساسية
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    python3-dev \
+    libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone repo
-RUN git clone https://github.com/ZThon-Bot/ZTele.git /root/zlzl
-
-# Set working directory
-WORKDIR /root/zlzl
-
-# Install Python requirements
+# تحديث pip وتثبيت المتطلبات
+RUN python3 -m pip install --upgrade pip
+COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Run the application
+# نسخ الكود المتبقي (إذا لزم الأمر)
+COPY . /root/zlzl
+WORKDIR /root/zlzl
+
+# تشغيل التطبيق
 CMD ["python3", "-m", "zlzl"]
