@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y \
 # استنساخ المستودع
 RUN git clone https://github.com/ZThon-Bot/ZTele.git /root/zlzl
 
+# نسخ ملف المتطلبات
+COPY requirements.txt /root/zlzl/
+
 # تحديد مجلد العمل
 WORKDIR /root/zlzl
 
